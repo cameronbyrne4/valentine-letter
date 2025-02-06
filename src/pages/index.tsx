@@ -21,11 +21,13 @@ export default function ValentinePage() {
           alt="You got mail" 
           className={styles.headerText}
         />
+        {/* 
         <img 
           src="/images/click-to-open.gif" 
           alt="Click the letter to open it" 
           className={styles.subHeaderText}
         />
+        */}
       </div>
       
       <LetterComponent 
@@ -38,7 +40,11 @@ export default function ValentinePage() {
           onClick={handleReset} 
           className={styles.resetButton}
         >
-          Reset
+          <img 
+            src="/images/reset.png" 
+            alt="Reset" 
+            className={styles.resetButtonImage}
+          />
         </button>
       )}
     </div>
