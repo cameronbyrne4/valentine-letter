@@ -11,9 +11,31 @@ export default function LetterComponent({
   onLetterClick 
 }: LetterComponentProps) {
   const [showStaticImage, setShowStaticImage] = useState(false);
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [soundEffect, setSoundEffect] = useState<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Create audio objects only in the browser
+    const backgroundMusic = new Audio('/sound/background-music.mp3');
+    const letterOpenSound = new Audio('/sound/letter-open-sound.mp3');
+
+    // Set the volume for both audio elements
+    backgroundMusic.volume = 0.3; // Set background music volume (30%)
+    letterOpenSound.volume = 0.5; // Set sound effect volume (50%)
+
+    setAudio(backgroundMusic);
+    setSoundEffect(letterOpenSound);
+
+    // Cleanup function to pause music when component unmounts
+    return () => {
+      backgroundMusic.pause();
+      letterOpenSound.pause();
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
+      soundEffect?.play(); // Play sound effect when the letter is opened
       setShowStaticImage(false); // Reset to show GIF when opened
       const timer = setTimeout(() => {
         setShowStaticImage(true); // Show static image after 1 second
@@ -21,7 +43,21 @@ export default function LetterComponent({
 
       return () => clearTimeout(timer); // Cleanup timer on unmount
     }
-  }, [isOpen]);
+  }, [isOpen, soundEffect]);
+
+  useEffect(() => {
+    if (audio) {
+      audio.loop = true; // Set background music to loop
+      audio.play(); // Start playing background music
+    }
+
+    return () => {
+      if (audio) {
+        audio.pause(); // Pause music when component unmounts
+        audio.currentTime = 0; // Reset music to start
+      }
+    };
+  }, [audio]);
 
   return (
     <div 
