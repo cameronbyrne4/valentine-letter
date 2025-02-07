@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 .container {
     display: flex;
     flex-direction: column;
@@ -62,6 +63,13 @@
   .resetButtonImage {
     max-width: 70%;
     height: auto;
+  }
+  
+  .startScreen h1 {
+    font-family: 'Press Start 2P', serif;
+    font-size: 1.5rem;
+    color: #181818;
+    text-align: center;
   }
   
   @media (max-width: 600px) {
